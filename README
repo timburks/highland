@@ -1,0 +1,14 @@
+
+Highland is an Objective-C wrapper around the Highlander Web Server library.
+
+Highlander (http://www.metasystems.no/products/highlander/index.html)
+is a C library for building multithreaded web servers.
+
+Highland is designed to allow request handlers to be written in Nu.
+
+The Highlander library is by Bjørn Augestad, Meta Systems AS
+and is released under the GPL v2.
+
+Highland is by Tim Burks, Neon Design Technology, Inc.
+and is released under the Apache License, v. 2. or alternately, under the GPL v2.
+

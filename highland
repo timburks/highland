@@ -1,0 +1,66 @@
+#!/usr/local/bin/nush
+#
+# @file highland
+# The Highland daemon.
+#
+# @copyright  Copyright (c) 2009 Neon Design Technology, Inc.
+#
+#   Licensed under the Apache License, Version 2.0 (the "License");
+#   you may not use this file except in compliance with the License.
+#   You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
+
+(load "Highland")
+
+(set exit (NuBridgedFunction functionWithName:"exit" signature:"vi"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;; main program
+;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(set argv ((NSProcessInfo processInfo) arguments))
+(set argi 0)
+
+;; if we're running as a nush script, skip the nush path
+(if (/(.*)nush$/ findInString:(argv 0))
+    (set argi (+ argi 1)))
+
+;; skip the program name
+(set argi (+ argi 1))
+
+;; the option(s) we need to set
+(set site ".")
+(set port 4300)
+
+;; process the remaining arguments
+(while (< argi (argv count))
+       (case (argv argi)
+             ("-s"     (set argi (+ argi 1)) (set site (argv argi)))
+             ("--site" (set argi (+ argi 1)) (set site (argv argi)))
+             ("-p"     (set argi (+ argi 1)) (set port ((argv argi) intValue)))
+             ("--port" (set argi (+ argi 1)) (set port ((argv argi) intValue)))
+             (else (puts (+ "unknown option: " (argv argi)))
+                   (exit -1)))
+       (set argi (+ argi 1)))
+
+(set $highland ((Highland alloc) initWithPort:port))
+
+;; Declare a get action.
+(macro-1 get (pattern *handler)
+     `($highland addHandler:(HighlandHandler getWithPattern:,pattern handler:(cons 'progn ',*handler))))
+
+;; Declare a post action.
+(macro-1 post (pattern *handler)
+     `($highland addHandler:(HighlandHandler postWithPattern:,pattern handler:(cons 'progn ',*handler))))
+
+(load (+ site "/site.nu"))
+
+(puts (+ "Highland is running on port " port))
+($highland start)

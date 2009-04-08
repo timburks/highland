@@ -1,0 +1,16 @@
+This directory contains original and patched versions of the highlander library, version 0.9.91.
+
+The patch addresses two issues:
+
+1. The sendfile on Mac OS is incompatible with the one used in highlander.
+
+2. The request handler was modified to allow the default page handler to 
+   serve pages determined at runtime while still allowing unhandled requests
+   to fall through to the error handler. This allows us to write a default
+   page handler that uses Nu to test requests and generate responses.
+
+Build and install the patched version with:
+	./configure
+	make
+	sudo make install
+

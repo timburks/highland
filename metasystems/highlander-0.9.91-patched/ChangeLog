@@ -1,0 +1,2 @@
+0.9.91
+Fixed bug in general_header.c. Now we treat Close and close equivalent.
