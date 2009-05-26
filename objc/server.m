@@ -80,7 +80,7 @@ id RESPONSE;                                      // symbol
     for (int i = 0; i < count; i++) {
         cookie c = request_get_cookie(request, i);
         [result addObject:
-        [NSDictionary dictionaryWithValuesAndKeys:
+        [NSDictionary dictionaryWithObjectsAndKeys:
         [[[NSString alloc] initWithCString:cookie_get_name(c)] autorelease], @"name",
             [[[NSString alloc] initWithCString:cookie_get_value(c)] autorelease], @"value",
             nil]];
@@ -122,6 +122,12 @@ id RESPONSE;                                      // symbol
     void entity_header_set_expires(entity_header eh, time_t value);
     entity_header_set_expires(eh, value);
 }
+
+- (void) setContentType:(NSString *) string
+{
+    response_set_content_type(response, [string cStringUsingEncoding:NSUTF8StringEncoding]);
+}
+
 
 @end
 
