@@ -322,7 +322,7 @@ Copyright (C) 2006 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/Users/tim/Desktop/Repositories/nuhighlander/metasystems/highlander-0.9.91-patched'
+ac_pwd='/projects/repositories/highland/metasystems/highlander-0.9.91-patched'
 srcdir='.'
 INSTALL='/usr/bin/install -c'
 # If no file are specified by the user, then we need to provide default
@@ -507,19 +507,19 @@ s,@INSTALL_DATA@,|#_!!_#|${INSTALL} -m 644,g
 s,@CYGPATH_W@,|#_!!_#|echo,g
 s,@PACKAGE@,|#_!!_#|highlander,g
 s,@VERSION@,|#_!!_#|0.9.91,g
-s,@ACLOCAL@,|#_!!_#|${SHELL} /Users/tim/Desktop/Repositories/nuhighlander/metasystems/highlander-0.9.91-patched/extras/missing --run aclocal-1.9,g
-s,@AUTOCONF@,|#_!!_#|${SHELL} /Users/tim/Desktop/Repositories/nuhighlander/metasystems/highlander-0.9.91-patched/extras/missing --run autoconf,g
-s,@AUTOMAKE@,|#_!!_#|${SHELL} /Users/tim/Desktop/Repositories/nuhighlander/metasystems/highlander-0.9.91-patched/extras/missing --run automake-1.9,g
-s,@AUTOHEADER@,|#_!!_#|${SHELL} /Users/tim/Desktop/Repositories/nuhighlander/metasystems/highlander-0.9.91-patched/extras/missing --run autoheader,g
-s,@MAKEINFO@,|#_!!_#|${SHELL} /Users/tim/Desktop/Repositories/nuhighlander/metasystems/highlander-0.9.91-patched/extras/missing --run makeinfo,g
-s,@install_sh@,|#_!!_#|/Users/tim/Desktop/Repositories/nuhighlander/metasystems/highlander-0.9.91-patched/extras/install-sh,g
+s,@ACLOCAL@,|#_!!_#|${SHELL} /projects/repositories/highland/metasystems/highlander-0.9.91-patched/extras/missing --run aclocal-1.9,g
+s,@AUTOCONF@,|#_!!_#|${SHELL} /projects/repositories/highland/metasystems/highlander-0.9.91-patched/extras/missing --run autoconf,g
+s,@AUTOMAKE@,|#_!!_#|${SHELL} /projects/repositories/highland/metasystems/highlander-0.9.91-patched/extras/missing --run automake-1.9,g
+s,@AUTOHEADER@,|#_!!_#|${SHELL} /projects/repositories/highland/metasystems/highlander-0.9.91-patched/extras/missing --run autoheader,g
+s,@MAKEINFO@,|#_!!_#|${SHELL} /projects/repositories/highland/metasystems/highlander-0.9.91-patched/extras/missing --run makeinfo,g
+s,@install_sh@,|#_!!_#|/projects/repositories/highland/metasystems/highlander-0.9.91-patched/extras/install-sh,g
 s,@STRIP@,|#_!!_#|,g
 s,@INSTALL_STRIP_PROGRAM@,|#_!!_#|${SHELL} $(install_sh) -c -s,g
 s,@mkdir_p@,|#_!!_#|$(install_sh) -d,g
-s,@AWK@,|#_!!_#|gawk,g
+s,@AWK@,|#_!!_#|awk,g
 s,@SET_MAKE@,|#_!!_#|,g
 s,@am__leading_dot@,|#_!!_#|.,g
-s,@AMTAR@,|#_!!_#|${SHELL} /Users/tim/Desktop/Repositories/nuhighlander/metasystems/highlander-0.9.91-patched/extras/missing --run tar,g
+s,@AMTAR@,|#_!!_#|${SHELL} /projects/repositories/highland/metasystems/highlander-0.9.91-patched/extras/missing --run tar,g
 s,@am__tar@,|#_!!_#|${AMTAR} chof - "$$tardir",g
 s,@am__untar@,|#_!!_#|${AMTAR} xf -,g
 s,@RANLIB@,|#_!!_#|ranlib,g

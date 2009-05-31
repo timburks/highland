@@ -128,6 +128,10 @@ id RESPONSE;                                      // symbol
     response_set_content_type(response, [string cStringUsingEncoding:NSUTF8StringEncoding]);
 }
 
+- (void) setCacheControl:(NSString *) string
+{
+    response_set_cache_control(response, [string cStringUsingEncoding:NSUTF8StringEncoding]);
+}
 
 @end
 

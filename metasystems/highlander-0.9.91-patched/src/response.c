@@ -462,6 +462,12 @@ int response_set_cookie(http_response response, cookie new_cookie)
 		return 1;
 }
 
+int response_set_cache_control(http_response response, const char* value) 
+{
+	assert(NULL != response);
+	return entity_header_set_cache_control(response->entity_header, value);
+}
+
 int http_send_date(connection conn, const char* name, time_t value)
 {
 	char date[100];

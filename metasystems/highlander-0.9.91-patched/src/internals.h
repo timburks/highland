@@ -227,6 +227,7 @@ int entity_header_set_content_range(entity_header eh, const char *value);
 int entity_header_set_content_type(entity_header eh, const char *value);
 void entity_header_set_expires(entity_header eh, time_t value);
 void entity_header_set_last_modified(entity_header eh, time_t value);
+int entity_header_set_cache_control(entity_header eh, const char *value);
 
 int entity_header_content_type_is(entity_header eh, const char* val);
 
@@ -240,6 +241,7 @@ const char* entity_header_get_content_range(entity_header eh);
 const char* entity_header_get_content_type(entity_header eh);
 time_t entity_header_get_expires(entity_header eh);
 time_t entity_header_get_last_modified(entity_header eh);
+const char *entity_header_get_cache_control(entity_header eh);
 
 int entity_header_allow_isset(entity_header eh);
 int entity_header_content_encoding_isset(entity_header eh);
@@ -251,6 +253,7 @@ int entity_header_content_range_isset(entity_header eh);
 int entity_header_content_type_isset(entity_header eh);
 int entity_header_expires_isset(entity_header eh);
 int entity_header_last_modified_isset(entity_header eh);
+int entity_header_cache_control_isset(entity_header eh);
 
 int parse_request_headerfield(
 	connection conn,

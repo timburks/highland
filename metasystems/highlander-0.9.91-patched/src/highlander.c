@@ -163,6 +163,8 @@ static int send_disk_file(
 		return set_http_error(e, HTTP_406_NOT_ACCEPTABLE);
 	}
 
+ 	response_set_cache_control(response, "max-age=3600");
+
 	content_type = get_mime_type(filename);
 
 	/* This function does not actually send the file, just stats it

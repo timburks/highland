@@ -21,6 +21,7 @@ static void entity_header_clear_flags(entity_header gh);
 #define ENTITY_HEADER_CONTENT_TYPE_SET		(0x80)
 #define ENTITY_HEADER_EXPIRES_SET			(0x100)
 #define ENTITY_HEADER_LAST_MODIFIED_SET		(0x200)
+#define ENTITY_HEADER_CACHE_CONTROL_SET		(0x400)
 
 struct entity_header_tag {
 	flagtype flags;
@@ -35,6 +36,7 @@ struct entity_header_tag {
 	cstring content_type;		/* v1.0 §10.5 v1.1 §14.17 */
 	time_t expires;
 	time_t last_modified;
+        cstring cache_control;
 };
 
 entity_header entity_header_new(void)
@@ -50,6 +52,7 @@ entity_header entity_header_new(void)
 		p->content_md5 = cstring_new();
 		p->content_type = cstring_new();
 		p->content_range = cstring_new();
+		p->cache_control = cstring_new();
 	}
 
 	return p;
@@ -65,6 +68,7 @@ void entity_header_free(entity_header p)
 		cstring_free(p->content_md5);
 		cstring_free(p->content_type);
 		cstring_free(p->content_range);
+		cstring_free(p->cache_control);
 
 		free(p);
 	}
@@ -148,6 +152,17 @@ int entity_header_set_content_type(entity_header eh, const char* value)
 	return 1;
 }
 
+int entity_header_set_cache_control(entity_header eh, const char* value)
+{
+	assert(NULL != eh);
+	assert(NULL != value);
+
+	if(!cstring_copy(eh->cache_control, value)) 
+		return 0;
+
+	entity_header_set_flag(eh, ENTITY_HEADER_CACHE_CONTROL_SET);
+	return 1;
+}
 
 int entity_header_set_content_md5(entity_header eh, const char* value)
 {
@@ -236,6 +251,12 @@ int entity_header_content_type_isset(entity_header eh)
 {
 	assert(eh != NULL);
 	return entity_header_flag_is_set(eh, ENTITY_HEADER_CONTENT_TYPE_SET);
+}
+
+int entity_header_cache_control_isset(entity_header eh)
+{
+        assert(eh != NULL);
+        return entity_header_flag_is_set(eh, ENTITY_HEADER_CACHE_CONTROL_SET);
 }
 
 int entity_header_expires_isset(entity_header eh)
@@ -328,6 +349,13 @@ const char* entity_header_get_content_type(entity_header eh)
 	return c_str(eh->content_type);
 }
 
+const char* entity_header_get_cache_control(entity_header eh)
+{
+	assert(eh != NULL);
+	assert(entity_header_flag_is_set(eh, ENTITY_HEADER_CACHE_CONTROL_SET));
+	return c_str(eh->cache_control);
+}
+
 time_t entity_header_get_expires(entity_header eh)
 {
 	assert(eh != NULL);
@@ -387,6 +415,11 @@ static inline int send_last_modified(entity_header eh, connection conn)
 	return http_send_date(conn, "Last-Modified: ", eh->last_modified);
 }
 
+static inline int send_cache_control(entity_header eh, connection conn)
+{
+	return http_send_field(conn, "Cache-control: ", eh->cache_control); // cstring_dup("max-age=600"));
+}
+
 static inline int send_content_length(entity_header eh, connection conn)
 {
 	char buf[100] = {'\0'}; /* "Content-Length: " + length + '\r\n\0' */
@@ -417,6 +450,7 @@ int entity_header_send_fields(entity_header eh, connection c)
 		{ ENTITY_HEADER_CONTENT_TYPE_SET,		send_content_type },
 		{ ENTITY_HEADER_EXPIRES_SET,			send_expires },
 		{ ENTITY_HEADER_LAST_MODIFIED_SET,		send_last_modified },
+		{ ENTITY_HEADER_CACHE_CONTROL_SET,		send_cache_control },
 	};
 
 	nelem = sizeof fields / sizeof *fields;
