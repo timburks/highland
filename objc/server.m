@@ -133,6 +133,28 @@ id RESPONSE;                                      // symbol
     response_set_cache_control(response, [string cStringUsingEncoding:NSUTF8StringEncoding]);
 }
 
+- (void) setStatus:(int) status 
+{
+    response_set_status(response, status);
+}
+
+- (int) status
+{
+    return response_get_status(response);
+}
+
+- (void) setLocation:(NSString *) string 
+{
+    response_set_location(response, [string cStringUsingEncoding:NSUTF8StringEncoding]);
+}
+
+- (void) temporarilyRedirectToLocation:(NSString *) string
+{
+    [self setStatus:302];
+    [self setLocation:string];
+}
+
+
 @end
 
 @interface HighlandHandler : NSObject
@@ -209,8 +231,12 @@ id RESPONSE;                                      // symbol
 // NS_DURING
 @try {
         id result = [handler evalWithContext:context];
-	if ([result isKindOfClass:[NSString class]]) 
+	// only return content for OK and NOT FOUND status codes.
+	int status = [response status];
+        if (((status == 200) || (status == 404)) 
+            && [result isKindOfClass:[NSString class]]) {
 	    [response writeString:result];
+        }
 } @catch (id exception) {
 //NS_HANDLER
 //id exception = localException;
@@ -281,16 +307,17 @@ NSLog(@"error: %@ %@", [exception name], [exception reason]);
 #endif
 
     char handled = NO;
-    int status;
+    int status; 
     HighlandRequest *request = [[HighlandRequest alloc] init];
     HighlandResponse *response = [[HighlandResponse alloc] init];
     request->request = req;
     response->response = page;
+    response_set_status(page, HTTP_200_OK); // default unless overridden in handlers
     for (int i = 0; i < [handlers count]; i++) {
         HighlandHandler *handler = [handlers objectAtIndex:i];
         if ([handler handleRequest:request withResponse:response]) {
             handled = YES;
-            status = HTTP_200_OK;
+            status = response_get_status(page);
             break;
         }
     }
