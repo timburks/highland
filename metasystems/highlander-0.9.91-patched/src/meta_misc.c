@@ -409,6 +409,8 @@ const char* get_mime_type(const char* filename)
 		{ "png",	"image/png" },
 		{ "tiff",	"image/tiff" },
 		{ "gif",	"image/gif" },
+
+		{ "manifest",	"text/cache-manifest" },
 	};
 
 	size_t i, nelem = sizeof(map) / sizeof(map[0]);
